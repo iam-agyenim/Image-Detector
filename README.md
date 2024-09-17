@@ -17,6 +17,7 @@ To install the required dependencies, run the following command:
 ```bash
 pip install -r requirements.txt
 
+
 This will install:
 absl-py==2.1.0
 astunparse==1.6.3
@@ -61,7 +62,7 @@ wrapt==1.16.0
 
 
 
-# Files
+## Requirements: 
 detection.py: Main Python script that handles object detection.
 resnet50_coco_best_v2.0.1.h5: Pre-trained ResNet50 model weights.
 requirements.txt: List of dependencies needed for the project.
