@@ -61,7 +61,7 @@ wrapt==1.16.0
 
 
 
-## Files
+# Files
 detection.py: Main Python script that handles object detection.
 resnet50_coco_best_v2.0.1.h5: Pre-trained ResNet50 model weights.
 requirements.txt: List of dependencies needed for the project.
