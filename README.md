@@ -67,6 +67,8 @@ detection.py: Main Python script that handles object detection.
 resnet50_coco_best_v2.0.1.h5: Pre-trained ResNet50 model weights.
 requirements.txt: List of dependencies needed for the project.
 
+##Download file
+resnet50_coco_best_v2.0.1.h5 file : https://drive.google.com/file/d/1olD0BRJl1JLtdU-z5QWk2Ki2c-HHri-R/view?usp=sharing
 
 How to Use
 Install the dependencies:
