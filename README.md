@@ -8,7 +8,7 @@ This project implements object detection using the pre-trained **ResNet50** mode
 - Easy-to-use implementation with **ImageAI** library.
 - Supports multiple object detection in images.
 - Adjustable confidence level for detected objects.
-- JSON report export for structured, machine-readable detection results.
+- JSON report generation for single images or entire directories.
 
 ## Requirements
 
@@ -62,7 +62,7 @@ wrapt==1.16.0
 
 - `detection.py`: Main Python script that handles single-image object detection.
 - `batch_detection.py`: Script for batch object detection on a directory of images.
-- `report.py`: Script for running detection and exporting results as a JSON report.
+- `report.py`: Script to generate a JSON detection report for one or more images.
 - `resnet50_coco_best_v2.0.1.h5`: Pre-trained ResNet50 model weights.
 - `requirements.txt`: List of dependencies needed for the project.
 
@@ -119,39 +119,36 @@ All supported image formats (`.jpg`, `.jpeg`, `.png`, `.bmp`, `.tiff`, `.webp`) 
 | `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
 | `--confidence`  | Minimum confidence percentage              | `30`                               |
 
-## JSON Report Export
+## JSON Report Generation
 
-Generate a structured JSON report of detection results using `report.py`:
+Generate a structured JSON report of detected objects without keeping annotated images:
 
 ```bash
-python report.py --input im.jpeg --output result.jpg --report results.json
+# Single image
+python report.py --input im.jpeg
+
+# Directory of images
+python report.py --input ./images --output results.json
 ```
 
-The report includes the input/output paths, confidence threshold, total number of detected objects, and a list of each detection with its name and confidence score.
+The report is saved as a JSON file where each key is an image filename and the value is a list of detected objects with their confidence scores.
 
 ### Options
 
-| Flag            | Description                                | Default                            |
-|-----------------|--------------------------------------------|------------------------------------|
-| `--input`       | Path to the input image (required)         | —                                  |
-| `--output`      | Path to save the output image              | `imnew.jpg`                        |
-| `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
-| `--confidence`  | Minimum confidence percentage              | `30`                               |
-| `--report`      | Path to save the JSON report               | `report.json`                      |
+| Flag            | Description                                   | Default                            |
+|-----------------|-----------------------------------------------|------------------------------------|
+| `--input`       | Path to an image or directory (required)       | —                                 |
+| `--output`      | Path to save the JSON report                  | `report.json`                      |
+| `--model`       | Path to the model file                        | `resnet50_coco_best_v2.0.1.h5`    |
+| `--confidence`  | Minimum confidence percentage                 | `30`                               |
 
 ### Example Output
 
 ```json
 {
-  "input_image": "/path/to/im.jpeg",
-  "output_image": "/path/to/result.jpg",
-  "model": "/path/to/resnet50_coco_best_v2.0.1.h5",
-  "min_confidence": 30,
-  "total_objects": 3,
-  "detections": [
-    { "name": "person", "confidence": 92.45 },
-    { "name": "car", "confidence": 78.12 },
-    { "name": "dog", "confidence": 54.33 }
+  "im.jpeg": [
+    {"name": "person", "confidence": 92.45},
+    {"name": "dog", "confidence": 78.12}
   ]
 }
 ```
