@@ -8,6 +8,8 @@ This project implements object detection using the pre-trained **ResNet50** mode
 - Easy-to-use implementation with **ImageAI** library.
 - Supports multiple object detection in images.
 - Adjustable confidence level for detected objects.
+- JSON report generation for single images or entire directories.
+- Programmatic image comparison to find common and unique objects between two images.
 
 ## Requirements
 
@@ -59,7 +61,10 @@ wrapt==1.16.0
 
 ## FILES
 
-- `detection.py`: Main Python script that handles object detection.
+- `detection.py`: Main Python script that handles single-image object detection.
+- `batch_detection.py`: Script for batch object detection on a directory of images.
+- `report.py`: Script to generate a JSON detection report for one or more images.
+- `compare.py`: Module for comparing detected objects between two images.
 - `resnet50_coco_best_v2.0.1.h5`: Pre-trained ResNet50 model weights.
 - `requirements.txt`: List of dependencies needed for the project.
 
@@ -85,7 +90,116 @@ wrapt==1.16.0
 
     Replace `<path_to_image>` with the path to your input image and `<path_to_output_image>` with where you want to save the result.
 
-4. Adjust confidence levels or other parameters in the `detection.py` script as needed.
+4. Adjust the minimum confidence threshold (default: 30%):
+
+    ```bash
+    python detection.py --input im.jpeg --output result.jpg --confidence 50
+    ```
+
+5. Use a custom model path:
+
+    ```bash
+    python detection.py --input im.jpeg --output result.jpg --model /path/to/model.h5
+    ```
+
+## Batch Detection
+
+Process an entire directory of images at once using `batch_detection.py`:
+
+```bash
+python batch_detection.py --input-dir ./images --output-dir ./output
+```
+
+All supported image formats (`.jpg`, `.jpeg`, `.png`, `.bmp`, `.tiff`, `.webp`) in the input directory will be processed. Output images are saved with a `_detected` suffix.
+
+### Options
+
+| Flag            | Description                                | Default                            |
+|-----------------|--------------------------------------------|------------------------------------|
+| `--input-dir`   | Directory containing input images (required) | —                                |
+| `--output-dir`  | Directory to save output images            | `./output`                         |
+| `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
+| `--confidence`  | Minimum confidence percentage              | `30`                               |
+
+## JSON Report Generation
+
+Generate a structured JSON report of detected objects without keeping annotated images:
+
+```bash
+# Single image
+python report.py --input im.jpeg
+
+# Directory of images
+python report.py --input ./images --output results.json
+```
+
+The report is saved as a JSON file where each key is an image filename and the value is a list of detected objects with their confidence scores.
+
+### Options
+
+| Flag            | Description                                   | Default                            |
+|-----------------|-----------------------------------------------|------------------------------------|
+| `--input`       | Path to an image or directory (required)       | —                                 |
+| `--output`      | Path to save the JSON report                  | `report.json`                      |
+| `--model`       | Path to the model file                        | `resnet50_coco_best_v2.0.1.h5`    |
+| `--confidence`  | Minimum confidence percentage                 | `30`                               |
+
+### Example Output
+
+```json
+{
+  "im.jpeg": [
+    {"name": "person", "confidence": 92.45},
+    {"name": "dog", "confidence": 78.12}
+  ]
+}
+```
+
+## Image Comparison
+
+Compare detected objects between two images programmatically using `compare.py`:
+
+```python
+from compare import compare_images
+
+result = compare_images(
+    "image1.jpeg",
+    "image2.jpeg",
+    "resnet50_coco_best_v2.0.1.h5",
+    min_confidence=30,
+)
+print(result)
+```
+
+### Return Value
+
+The `compare_images` function returns a dictionary with:
+
+| Key                | Description                                              |
+|--------------------|----------------------------------------------------------|
+| `image1`           | Basename of the first image                              |
+| `image2`           | Basename of the second image                             |
+| `image1_objects`   | Object names and counts detected in the first image      |
+| `image2_objects`   | Object names and counts detected in the second image     |
+| `common_objects`   | Object categories found in both images                   |
+| `only_in_image1`   | Object categories found only in the first image          |
+| `only_in_image2`   | Object categories found only in the second image         |
+| `similarity_score` | Ratio of shared categories to total categories (0.0–1.0) |
+
+### Example Output
+
+```python
+{
+    "image1": "park.jpeg",
+    "image2": "street.jpeg",
+    "image1_objects": {"person": 3, "dog": 1},
+    "image2_objects": {"person": 2, "car": 4},
+    "common_objects": ["person"],
+    "only_in_image1": ["dog"],
+    "only_in_image2": ["car"],
+    "similarity_score": 0.3333
+}
+```
 
 ## Pre-trained Model
 
