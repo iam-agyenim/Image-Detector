@@ -59,7 +59,8 @@ wrapt==1.16.0
 
 ## FILES
 
-- `detection.py`: Main Python script that handles object detection.
+- `detection.py`: Main Python script that handles single-image object detection.
+- `batch_detection.py`: Script for batch object detection on a directory of images.
 - `resnet50_coco_best_v2.0.1.h5`: Pre-trained ResNet50 model weights.
 - `requirements.txt`: List of dependencies needed for the project.
 
@@ -85,7 +86,36 @@ wrapt==1.16.0
 
     Replace `<path_to_image>` with the path to your input image and `<path_to_output_image>` with where you want to save the result.
 
-4. Adjust confidence levels or other parameters in the `detection.py` script as needed.
+4. Adjust the minimum confidence threshold (default: 30%):
+
+    ```bash
+    python detection.py --input im.jpeg --output result.jpg --confidence 50
+    ```
+
+5. Use a custom model path:
+
+    ```bash
+    python detection.py --input im.jpeg --output result.jpg --model /path/to/model.h5
+    ```
+
+## Batch Detection
+
+Process an entire directory of images at once using `batch_detection.py`:
+
+```bash
+python batch_detection.py --input-dir ./images --output-dir ./output
+```
+
+All supported image formats (`.jpg`, `.jpeg`, `.png`, `.bmp`, `.tiff`, `.webp`) in the input directory will be processed. Output images are saved with a `_detected` suffix.
+
+### Options
+
+| Flag            | Description                                | Default                            |
+|-----------------|--------------------------------------------|------------------------------------|
+| `--input-dir`   | Directory containing input images (required) | —                                |
+| `--output-dir`  | Directory to save output images            | `./output`                         |
+| `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
+| `--confidence`  | Minimum confidence percentage              | `30`                               |
 
 ## Pre-trained Model
 
