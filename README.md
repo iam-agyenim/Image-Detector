@@ -8,6 +8,7 @@ This project implements object detection using the pre-trained **ResNet50** mode
 - Easy-to-use implementation with **ImageAI** library.
 - Supports multiple object detection in images.
 - Adjustable confidence level for detected objects.
+- JSON report export for structured, machine-readable detection results.
 
 ## Requirements
 
@@ -61,6 +62,7 @@ wrapt==1.16.0
 
 - `detection.py`: Main Python script that handles single-image object detection.
 - `batch_detection.py`: Script for batch object detection on a directory of images.
+- `report.py`: Script for running detection and exporting results as a JSON report.
 - `resnet50_coco_best_v2.0.1.h5`: Pre-trained ResNet50 model weights.
 - `requirements.txt`: List of dependencies needed for the project.
 
@@ -116,6 +118,43 @@ All supported image formats (`.jpg`, `.jpeg`, `.png`, `.bmp`, `.tiff`, `.webp`) 
 | `--output-dir`  | Directory to save output images            | `./output`                         |
 | `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
 | `--confidence`  | Minimum confidence percentage              | `30`                               |
+
+## JSON Report Export
+
+Generate a structured JSON report of detection results using `report.py`:
+
+```bash
+python report.py --input im.jpeg --output result.jpg --report results.json
+```
+
+The report includes the input/output paths, confidence threshold, total number of detected objects, and a list of each detection with its name and confidence score.
+
+### Options
+
+| Flag            | Description                                | Default                            |
+|-----------------|--------------------------------------------|------------------------------------|
+| `--input`       | Path to the input image (required)         | —                                  |
+| `--output`      | Path to save the output image              | `imnew.jpg`                        |
+| `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
+| `--confidence`  | Minimum confidence percentage              | `30`                               |
+| `--report`      | Path to save the JSON report               | `report.json`                      |
+
+### Example Output
+
+```json
+{
+  "input_image": "/path/to/im.jpeg",
+  "output_image": "/path/to/result.jpg",
+  "model": "/path/to/resnet50_coco_best_v2.0.1.h5",
+  "min_confidence": 30,
+  "total_objects": 3,
+  "detections": [
+    { "name": "person", "confidence": 92.45 },
+    { "name": "car", "confidence": 78.12 },
+    { "name": "dog", "confidence": 54.33 }
+  ]
+}
+```
 
 ## Pre-trained Model
 
