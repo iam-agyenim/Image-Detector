@@ -16,7 +16,7 @@ COMMANDS = {
     "detect": "detection",
     "batch": "batch_detection",
     "report": "report",
-    "compare": "compare",
+    "compare": "compare_cli",
     "stats": "stats",
 }
 
