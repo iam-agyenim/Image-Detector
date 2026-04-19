@@ -252,6 +252,10 @@ The ResNet50 model is pre-trained on the COCO dataset. The model file included i
 
 This project is licensed under the MIT License. Feel free to use it and modify it as per your needs.
 
+## Contributing
+
+<!-- Contributions are welcome! Feel free to open issues or submit pull requests to improve this project. -->
+
 ## Acknowledgments
 
 - **ImageAI** for the detection framework.
