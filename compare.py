@@ -47,3 +47,24 @@ def compare_images(image1, image2, model_path, min_confidence=30):
         "only_in_image2": sorted(only_in_second),
         "similarity_score": round(similarity, 4),
     }
+
+
+def print_comparison(result):
+    print("=" * 50)
+    print("  Image Comparison Results")
+    print("=" * 50)
+    print(f"  Image 1 : {result['image1']}")
+    print(f"  Image 2 : {result['image2']}")
+    print("-" * 50)
+    print(f"  Objects in image 1:")
+    for obj, count in result["image1_objects"].items():
+        print(f"    {obj:20s}  count={count}")
+    print(f"  Objects in image 2:")
+    for obj, count in result["image2_objects"].items():
+        print(f"    {obj:20s}  count={count}")
+    print("-" * 50)
+    print(f"  Common objects     : {', '.join(result['common_objects']) or 'None'}")
+    print(f"  Only in image 1    : {', '.join(result['only_in_image1']) or 'None'}")
+    print(f"  Only in image 2    : {', '.join(result['only_in_image2']) or 'None'}")
+    print(f"  Similarity score   : {result['similarity_score']}")
+    print("=" * 50)

@@ -200,7 +200,29 @@ python stats.py --input report.json --output stats.json
 
 ## Image Comparison
 
-Compare detected objects between two images programmatically using `compare.py`:
+Compare detected objects between two images from the command line:
+
+```bash
+python compare.py --image1 image1.jpeg --image2 image2.jpeg
+```
+
+Optionally save the comparison result as JSON:
+
+```bash
+python compare.py --image1 image1.jpeg --image2 image2.jpeg --output comparison.json
+```
+
+### Options
+
+| Flag            | Description                                | Default                            |
+|-----------------|--------------------------------------------|------------------------------------|
+| `--image1`      | Path to the first image (required)         | —                                  |
+| `--image2`      | Path to the second image (required)        | —                                  |
+| `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
+| `--confidence`  | Minimum confidence percentage              | `30`                               |
+| `--output`      | Optional path to save result as JSON       | —                                  |
+
+You can also use `compare_images` programmatically:
 
 ```python
 from compare import compare_images
