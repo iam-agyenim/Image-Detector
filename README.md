@@ -71,7 +71,7 @@ wrapt==1.16.0
 
 ## Download File
 
-- `resnet50_coco_best_v2.0.1.h5` file: [Download here](https://drive.google.com/file/d/1olD0BRJl1JLtdU-z5QWk2Ki2c-HHri-R/view?usp=sharing)
+- `resnet50_coco_best_v2.0.1.h5` file: [![Download here](https://img.shields.io/badge/Download_here-yellow?style=for-the-badge)](https://drive.google.com/file/d/1olD0BRJl1JLtdU-z5QWk2Ki2c-HHri-R/view?usp=sharing)
 
 ## How to Use
 
