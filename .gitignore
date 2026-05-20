@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+wheels/
+*.whl
+
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+ENV/
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Model weights
+*.h5
+*.hdf5
+*.pb
+*.tflite
+*.onnx
+
+# Detection output images
+imnew.jpg
+*_detected.jpg
+*_detected.png
+output/
+
+# Temporary comparison files
+.tmp_cmp*
+.tmp_report_*
+
+# JSON reports and statistics
+report.json
+stats.json
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+*.log
