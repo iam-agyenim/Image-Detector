@@ -10,6 +10,7 @@ This project implements object detection using the pre-trained **ResNet50** mode
 - Adjustable confidence level for detected objects.
 - JSON report generation for single images or entire directories.
 - Programmatic image comparison to find common and unique objects between two images.
+- In-depth single-image analysis with confidence breakdown and distribution.
 
 ## Requirements
 
@@ -66,6 +67,7 @@ wrapt==1.16.0
 - `report.py`: Script to generate a JSON detection report for one or more images.
 - `compare.py`: Module for comparing detected objects between two images.
 - `stats.py`: Script to compute aggregate statistics from a JSON detection report.
+- `analyzer.py`: Script for in-depth analysis of a single image's detections.
 - `resnet50_coco_best_v2.0.1.h5`: Pre-trained ResNet50 model weights.
 - `requirements.txt`: List of dependencies needed for the project.
 
@@ -265,6 +267,82 @@ The `compare_images` function returns a dictionary with:
     "similarity_score": 0.3333
 }
 ```
+
+## Image Analyzer
+
+Perform an in-depth analysis of detected objects in a single image, including per-object confidence statistics and an overall confidence distribution:
+
+```bash
+python analyzer.py --input im.jpeg
+```
+
+Optionally save the analysis as a JSON file:
+
+```bash
+python analyzer.py --input im.jpeg --output analysis.json
+```
+
+### Options
+
+| Flag            | Description                                | Default                            |
+|-----------------|--------------------------------------------|------------------------------------|
+| `--input`       | Path to the input image (required)         | —                                  |
+| `--model`       | Path to the model file                     | `resnet50_coco_best_v2.0.1.h5`    |
+| `--confidence`  | Minimum confidence percentage              | `30`                               |
+| `--output`      | Optional path to save analysis as JSON     | —                                  |
+
+### Example Output
+
+```
+=======================================================
+  Image Analysis
+=======================================================
+  Image                : im.jpeg
+  Total objects found  : 5
+  Unique object types  : 3
+  Overall confidence   : min=34.12%  max=95.67%  mean=72.45%
+-------------------------------------------------------
+  Object breakdown:
+    person                count=  3  min= 45.2%  max= 95.7%  mean= 74.3%
+    car                   count=  1  min= 82.1%  max= 82.1%  mean= 82.1%
+    dog                   count=  1  min= 34.1%  max= 34.1%  mean= 34.1%
+-------------------------------------------------------
+  Confidence distribution:
+    low (30-50%)           1  #
+    medium (50-75%)        1  #
+    high (75-100%)         3  ###
+-------------------------------------------------------
+  High-confidence detections (>=75%):
+    - person (95.67%)
+    - car (82.1%)
+    - person (76.55%)
+  Low-confidence detections (<50%):
+    - dog (34.12%)
+=======================================================
+```
+
+### Programmatic Usage
+
+```python
+from analyzer import analyze_image
+
+analysis = analyze_image("im.jpeg", "resnet50_coco_best_v2.0.1.h5", min_confidence=30)
+print(analysis)
+```
+
+The `analyze_image` function returns a dictionary with:
+
+| Key                         | Description                                                  |
+|-----------------------------|--------------------------------------------------------------|
+| `image`                     | Basename of the analysed image                               |
+| `total_objects`             | Total number of detected objects                             |
+| `unique_objects`            | Number of distinct object categories                         |
+| `object_counts`             | Object names and their counts                                |
+| `overall_confidence`        | Min, max, and mean confidence across all detections          |
+| `confidence_stats`          | Per-object min, max, mean confidence and count               |
+| `confidence_distribution`   | Number of detections in low / medium / high confidence bands |
+| `high_confidence_objects`   | Detections with confidence ≥ 75%                             |
+| `low_confidence_objects`    | Detections with confidence < 50%                             |
 
 ## Pre-trained Model
 
